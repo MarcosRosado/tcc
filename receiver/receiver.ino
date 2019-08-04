@@ -8,8 +8,8 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPClient.h>
 
-const char *ssid = "SFox_Vicente";  //ENTER YOUR WIFI SETTINGS
-const char *password = "zrp37vi9";
+const char *ssid = "HM";  //ENTER YOUR WIFI SETTINGS
+const char *password = "121119978";
 const char *host = "35.245.96.146";
 
 SoftwareSerial HC12(D5, D6); // HC-12 TX Pin, HC-12 RX Pin
@@ -59,11 +59,18 @@ void sendPost(String valor, String tipo, String tag){
 void loop() {
   // solicita os dados de um sensor a cada X segundos
   unsigned long currentMillis = millis();
-  if (currentMillis - previousMillis >= 120000) {
+  unsigned long Switch = 0; // alterna entre os dois emissores
+  if (currentMillis - previousMillis >= 60000) {
     // save the last time you blinked the LED
     previousMillis = currentMillis;
-    HC12.print("!1");
+    if (Switch % 2 == 0){
+      HC12.print("!1");
+    }
+    else{
+      HC12.print("!2");
+    }
     delay(500);
+    Switch ++;
   }
 
   // recebe os dados solicitados

@@ -1,0 +1,4 @@
+   NodeMCU  MEGA
+
+RX pin D6 - pin 11
+TX pin D5 - pin 10
