@@ -2,3 +2,7 @@
 
 RX pin D6 - pin 11
 TX pin D5 - pin 10
+
+Mega pins
+Digital one wire - pin 3
+Analogs - A1...A10

@@ -32,7 +32,7 @@ void loop() {
    while(HC12.available()){
        temp = temp + char(HC12.read());
    }
-   if (temp == "!1"){ // alterar para 2 no segundo transmiter
+   if (temp == "!2"){ // alterar para 2 no segundo transmiter
     float temperatura [10];
     temperatura[0] = barramento.getTempC(sensor1);
     temperatura[1]  = barramento.getTempC(sensor2);
@@ -64,12 +64,12 @@ void loop() {
         String sendData = "#";
         if (i < 10){
           sendData = sendData + temperatura[i] + ";";
-          sendData = sendData + "temperatura" + i + ";"; // alterar index para i+10 para segundo transmiter
+          sendData = sendData + "temperatura" + (i+10) + ";"; // alterar index para i+10 para segundo transmiter
           sendData = sendData + "Temp" + "#";
         }
         else{
           sendData = sendData + umidade[i] + ";";
-          sendData = sendData + "umidade" + i + ";"; // alterar index para i+10 para segundo transmiter
+          sendData = sendData + "umidade" + (i+10) + ";"; // alterar index para i+10 para segundo transmiter
           sendData = sendData + "Umid" + "#";
         }
         HC12.print(sendData);
