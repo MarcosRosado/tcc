@@ -114,19 +114,8 @@ void loop() {
 
       // verifica se o wifi está conectado periodicamente
       if(WiFi.status() != WL_CONNECTED){
-        WiFi.begin(ssid, password);
-        while (WiFi.status() != WL_CONNECTED) {
-          delay(500);
-          Serial.print(".");
-        }
-     
-        //If connection successful show IP address in serial monitor
-        Serial.println("");
-        Serial.print("Connected to ");
-        Serial.println(ssid);
-        Serial.print("IP address: ");
-        Serial.println(WiFi.localIP());  //IP address assigned to your ESP
-        
+        Serial.println("Conexão perdida, reiniciando");
+        ESP.restart();
       }
       
       sendPost(val, valType,tag);
