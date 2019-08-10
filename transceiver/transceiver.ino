@@ -69,11 +69,11 @@ void loop() {
         }
         else{
           sendData = sendData + umidade[i] + ";";
-          sendData = sendData + "umidade" + (i+10) + ";"; // alterar index para i+10 para segundo transmiter
+          sendData = sendData + "umidade" + (i) + ";"; // alterar index para i+10 para segundo transmiter
           sendData = sendData + "Umid" + "#";
         }
         HC12.print(sendData);
-        delay(2000);
+        delay(3000);
        }
       // If Serial monitor has data
 

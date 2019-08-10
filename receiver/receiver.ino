@@ -8,12 +8,13 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPClient.h>
 
-const char *ssid = "HM";  //ENTER YOUR WIFI SETTINGS
-const char *password = "121119978";
+const char *ssid = "Marcos";  //ENTER YOUR WIFI SETTINGS
+const char *password = "zrp37vi9t15n0513";
 const char *host = "35.245.96.146";
 
 SoftwareSerial HC12(D5, D6); // HC-12 TX Pin, HC-12 RX Pin
 unsigned long previousMillis = 0;
+unsigned long Switch = 0; // alterna entre os dois emissores
 
 void setup() {
   Serial.begin(9600);             // Serial port to computer
@@ -43,7 +44,7 @@ void setup() {
 void sendPost(String valor, String tipo, String tag){
    HTTPClient http;
    String postData = "";
-   postData = postData + "hashDevice=" + "808535c25bcce81e3904ac4d89f7ffed" + "&valor=" + valor + "&tipoSensor=" + tipo + "&tag=" + tag ;
+   postData = postData + "hashDevice=" + "490e876e759505c55362ef47be49b8ad" + "&valor=" + valor + "&tipoSensor=" + tipo + "&tag=" + tag ;
    http.begin("http://35.245.96.146/MoonProject/public/inserirDado");              //Specify request destination
    http.addHeader("Content-Type", "application/x-www-form-urlencoded");    //Specify content-type header
  
@@ -59,8 +60,7 @@ void sendPost(String valor, String tipo, String tag){
 void loop() {
   // solicita os dados de um sensor a cada X segundos
   unsigned long currentMillis = millis();
-  unsigned long Switch = 0; // alterna entre os dois emissores
-  if (currentMillis - previousMillis >= 60000) {
+  if (currentMillis - previousMillis >= 120000) {
     // save the last time you blinked the LED
     previousMillis = currentMillis;
     if (Switch % 2 == 0){
@@ -71,6 +71,13 @@ void loop() {
     }
     delay(500);
     Switch ++;
+  }
+
+  // verifica se o wifi está conectado periodicamente
+  if(WiFi.status() != WL_CONNECTED){
+     Serial.println("Conexão perdida, reiniciando");
+     delay(1000);
+     ESP.restart();
   }
 
   // recebe os dados solicitados
@@ -115,6 +122,7 @@ void loop() {
       // verifica se o wifi está conectado periodicamente
       if(WiFi.status() != WL_CONNECTED){
         Serial.println("Conexão perdida, reiniciando");
+        delay(1000);
         ESP.restart();
       }
       
