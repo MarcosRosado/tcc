@@ -33,6 +33,8 @@ void loop() {
        temp = temp + char(HC12.read());
    }
    if (temp == "!2"){ // alterar para 2 no segundo transmiter
+    ds.requestTemperatures();
+    delay(500);
     float temperatura [10];
     temperatura[0] = barramento.getTempC(sensor1);
     temperatura[1]  = barramento.getTempC(sensor2);
