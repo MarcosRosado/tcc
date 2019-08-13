@@ -32,20 +32,20 @@ void loop() {
    while(HC12.available()){
        temp = temp + char(HC12.read());
    }
-   if (temp == "!2"){ // alterar para 2 no segundo transmiter
+   if (temp == "!1"){ // alterar para 2 no segundo transmiter
     barramento.requestTemperatures();
     delay(500);
     float temperatura [10];
-    temperatura[0] = barramento.getTempC(sensor1);
-    temperatura[1]  = barramento.getTempC(sensor2);
-    temperatura[2] = barramento.getTempC(sensor3);
-    temperatura[3] = barramento.getTempC(sensor4);
-    temperatura[4] = barramento.getTempC(sensor5);
-    temperatura[5] = barramento.getTempC(sensor6);
-    temperatura[6] = barramento.getTempC(sensor7);
+    temperatura[0] = barramento.getTempC(sensor10);
+    temperatura[1]  = barramento.getTempC(sensor1);
+    temperatura[2] = barramento.getTempC(sensor5);
+    temperatura[3] = barramento.getTempC(sensor9);
+    temperatura[4] = barramento.getTempC(sensor6);
+    temperatura[5] = barramento.getTempC(sensor7);
+    temperatura[6] = barramento.getTempC(sensor2);
     temperatura[7] = barramento.getTempC(sensor8);
-    temperatura[8] = barramento.getTempC(sensor9);
-    temperatura[9] = barramento.getTempC(sensor10);
+    temperatura[8] = barramento.getTempC(sensor3);
+    temperatura[9] = barramento.getTempC(sensor4);
 
     int umidade [10];
     umidade[0] = analogRead(A1);
@@ -66,12 +66,12 @@ void loop() {
         String sendData = "#";
         if (i < 10){
           sendData = sendData + temperatura[i] + ";";
-          sendData = sendData + "temperatura" + (i+10) + ";"; // alterar index para i+10 para segundo transmiter
+          sendData = sendData + "temperatura" + (i) + ";"; // alterar index para i+10 para segundo transmiter
           sendData = sendData + "Temp" + "#";
         }
         else{
-          sendData = sendData + umidade[i] + ";";
-          sendData = sendData + "umidade" + (i) + ";"; // alterar index para i+10 para segundo transmiter
+          sendData = sendData + umidade[i-10] + ";";
+          sendData = sendData + "umidade" + (i-10) + ";"; // alterar index para i+10 para segundo transmiter
           sendData = sendData + "Umid" + "#";
         }
         HC12.print(sendData);
