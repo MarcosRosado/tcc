@@ -8,8 +8,8 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPClient.h>
 
-const char *ssid = "Marcos";  //ENTER YOUR WIFI SETTINGS
-const char *password = "zrp37vi9t15n0513";
+const char *ssid = "Daninhas";  //ENTER YOUR WIFI SETTINGS
+const char *password = "D@n1nh4s"; // D@n1nh4s
 const char *host = "35.245.96.146";
 
 SoftwareSerial HC12(D5, D6); // HC-12 TX Pin, HC-12 RX Pin
@@ -19,6 +19,7 @@ unsigned long Switch = 0; // alterna entre os dois emissores
 void setup() {
   Serial.begin(9600);             // Serial port to computer
   HC12.begin(9600);               // Serial port to HC12
+  pinMode(LED_BUILTIN, OUTPUT); // led start
   WiFi.mode(WIFI_OFF);        //Prevents reconnection issue (taking too long to connect)
   delay(1000);
   WiFi.mode(WIFI_STA);        //This line hides the viewing of ESP as wifi hotspot
@@ -29,7 +30,9 @@ void setup() {
   Serial.print("Connecting");
   // Wait for connection
   while (WiFi.status() != WL_CONNECTED) {
+    digitalWrite(LED_BUILTIN, HIGH);
     delay(500);
+    digitalWrite(LED_BUILTIN, LOW);
     Serial.print(".");
   }
  
@@ -58,15 +61,18 @@ void sendPost(String valor, String tipo, String tag){
   }
 
 void loop() {
+  digitalWrite(LED_BUILTIN, LOW);
   // solicita os dados de um sensor a cada X segundos
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= 120000) {
     // save the last time you blinked the LED
     previousMillis = currentMillis;
     if (Switch % 2 == 0){
+      digitalWrite(LED_BUILTIN, HIGH);
       HC12.print("!1");
     }
     else{
+      digitalWrite(LED_BUILTIN, HIGH);
       HC12.print("!2");
     }
     delay(500);
@@ -76,6 +82,7 @@ void loop() {
   // verifica se o wifi está conectado periodicamente
   if(WiFi.status() != WL_CONNECTED){
      Serial.println("Conexão perdida, reiniciando");
+     digitalWrite(LED_BUILTIN, HIGH);
      delay(1000);
      ESP.restart();
   }
@@ -121,6 +128,7 @@ void loop() {
 
       // verifica se o wifi está conectado periodicamente
       if(WiFi.status() != WL_CONNECTED){
+        digitalWrite(LED_BUILTIN, HIGH);
         Serial.println("Conexão perdida, reiniciando");
         delay(1000);
         ESP.restart();
